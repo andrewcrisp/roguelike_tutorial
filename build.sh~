@@ -1,1 +1,0 @@
-g++ src/main.cpp -o tuto -Iinclude -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall
