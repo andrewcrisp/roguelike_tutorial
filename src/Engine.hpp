@@ -8,6 +8,10 @@ class Engine {
 		~Engine();
 		void update();
 		void render();
+		int fovRadius;
+	
+	private :
+		bool computeFov;
 };
 
 extern Engine engine;
