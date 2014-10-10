@@ -9,6 +9,7 @@ class Map {
 
 		Map(int width, int height);
 		~Map();
+		bool canWalk(int x, int y) const;
 		bool isWall(int x, int y) const;
 		bool isInFov(int x, int y) const;
 		bool isExplored(int x, int y) const;
@@ -20,5 +21,6 @@ class Map {
 		friend class BspListener;
 
 		void dig(int x1, int y1, int x2, int y2);
+		void addMonster(int x, int y);
 		void createRoom(bool first, int x1, int y1, int x2, int y2);
 };
