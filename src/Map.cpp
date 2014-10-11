@@ -55,7 +55,7 @@ bool Map::canWalk(int x, int y) const {
 	}
 	for (Actor **iterator=engine.actors.begin(); iterator!=engine.actors.end(); iterator++){
 		Actor *actor=*iterator;
-		if (actor->x == x && actor->y == y) {
+		if (actor->blocks && actor->x == x && actor->y == y ) {
 			return false;
 		}
 	}

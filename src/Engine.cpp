@@ -56,3 +56,8 @@ void Engine::render() {
 	}
 		
 }
+
+void Engine::sendToBack(Actor *actor) {
+	actors.remove(actor);
+	actors.insertBefore(actor,0);
+}

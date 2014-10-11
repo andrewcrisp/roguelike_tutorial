@@ -4,9 +4,12 @@ public :
 	int ch;
 	TCODColor col;
 	const char *name;
+	bool blocks; //can we walk over this actor?
+	Attacker *attacker;
+	Destructible *destructible;
+	Ai *ai;
 
 	Actor(int x, int y, int ch, const char *name, const TCODColor &col);
 	void update();
-	bool moveOrAttack(int x,int y);
 	void render() const;
 };

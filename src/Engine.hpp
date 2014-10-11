@@ -16,6 +16,7 @@ class Engine {
 		void update();
 		void render();
 		int fovRadius;
+		void sendToBack(Actor *actor);
 	
 	private :
 //bool computeFov;
