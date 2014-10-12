@@ -1,8 +1,5 @@
 class Engine {
 	public :
-		TCODList<Actor *> actors;
-		Actor *player;
-		Map *map;
 		enum GameStatus {
 			STARTUP,
 			IDLE,
@@ -10,6 +7,10 @@ class Engine {
 			VICTORY,
 			DEFEAT
 		} gameStatus;
+		TCODList<Actor *> actors;
+		int fovRadius;
+		Actor *player;
+		Map *map;
 		int screenWidth;
 		int screenHeight;
 		TCOD_key_t lastKey;
@@ -18,7 +19,6 @@ class Engine {
 		~Engine();
 		void update();
 		void render();
-		int fovRadius;
 		void sendToBack(Actor *actor);
 	
 	private :

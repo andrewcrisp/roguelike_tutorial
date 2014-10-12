@@ -26,14 +26,14 @@ void PlayerAi::update(Actor *owner) {
 
 bool PlayerAi::moveOrAttack(Actor *owner, int targetx, int targety) {
 	if ( engine.map->isWall(targetx,targety) ) return false;
-	for (Actor **iterator=engine.actors.begin();iterator != engine.actors.en(); iterator++) {
+	for (Actor **iterator=engine.actors.begin();iterator != engine.actors.end(); iterator++) {
 		Actor *actor = *iterator;
 		if ( actor->destructible && !actor->destructible->isDead() && actor->x == targetx && actor->y == targety ) {
 			owner->attacker->attack(owner, actor);
 			return false;
 		}
 	}
-	for (Actor **iterator=engine.actors.begin();iterator != engine.actors.en(); iterator++) {
+	for (Actor **iterator=engine.actors.begin();iterator != engine.actors.end(); iterator++) {
 		Actor *actor=*iterator;
 		if ( actor->destructible && actor->destructible->isDead() && actor->x == targetx && actor->y == targety ) {	
 			printf("There is a %s here\n",actor->name);
@@ -42,6 +42,9 @@ bool PlayerAi::moveOrAttack(Actor *owner, int targetx, int targety) {
 	owner->x=targetx;
 	owner->y=targety;
 	return true;
+}
+
+MonsterAi::MonsterAi() : moveCount(0) {
 }
 
 void MonsterAi::update(Actor *owner) {

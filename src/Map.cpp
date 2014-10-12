@@ -1,7 +1,4 @@
-#include "libtcod.hpp"
-#include "Map.hpp"
-#include "Actor.hpp"
-#include "Engine.hpp"
+#include "main.hpp"
 
 static const int ROOM_MAX_SIZE = 12;
 static const int ROOM_MIN_SIZE = 6;
@@ -71,7 +68,7 @@ void Map::addMonster(int x, int y) {
 		orc->ai = new MonsterAi();
 		engine.actors.push(orc);	
 	} else {
-		Actor *troll = new Actor(x,y,'T',"troll"TCODColor::darkerGreen);
+		Actor *troll = new Actor(x,y,'T',"troll",TCODColor::darkerGreen);
 		troll->destructible = new MonsterDestructible(16,1,"troll carcass");
 		troll->attacker = new Attacker(4);
 		troll->ai = new MonsterAi();

@@ -4,7 +4,7 @@ public :
 	int ch;
 	TCODColor col;
 	const char *name;
-	bool blocks; //can we walk over this actor?
+	bool blocks;
 	Attacker *attacker;
 	Destructible *destructible;
 	Ai *ai;

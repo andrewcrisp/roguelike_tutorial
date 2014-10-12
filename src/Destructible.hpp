@@ -14,13 +14,13 @@ class Destructible {
 
 class MonsterDestructible : public Destructible {
 	public :
-		MonsterDestructible(float maxHp, float defense, const char *corpseName;
-		void die(actor *owner);
+		MonsterDestructible(float maxHp, float defense, const char *corpseName);
+		void die(Actor *owner);
 };
 
 class PlayerDestructible : public Destructible {
 	public :
-		PlayerDestructible(float maxHp, float defense, const char *corpseName;
+		PlayerDestructible(float maxHp, float defense, const char *corpseName);
 		void die(Actor *owner);
 };
 

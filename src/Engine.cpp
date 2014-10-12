@@ -1,14 +1,11 @@
-#include "libtcod.hpp"
-#include "Actor.hpp"
-#include "Map.hpp"
-#include "Engine.hpp"
+#include "main.hpp"
 
 Engine::Engine(int screenWidth, int screenHeight) : gameStatus(STARTUP), fovRadius(10), screenWidth(screenWidth), screenHeight(screenHeight) {
 	TCODConsole::initRoot(80,50,"libtcod C++ tutorial",false);
 	player = new Actor(40,25,'@',"player",TCODColor::white);
 	player->destructible=new PlayerDestructible(30,2,"your cadaver");
 	player->attacker=new Attacker(5);
-	player->ai = new playerAi();
+	player->ai = new PlayerAi();
 	actors.push(player);
 	map = new Map(80,45);
 }
@@ -22,7 +19,7 @@ void Engine::update() {
 	if ( gameStatus == STARTUP ) map->computeFov();
 	gameStatus=IDLE;
 	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS,&lastKey,NULL);
-	player->update()
+	player->update();
 	if (gameStatus == NEW_TURN ) {
 		for (Actor **iterator=actors.begin(); iterator != actors.end(); iterator++) {
 			Actor *actor = *iterator;

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "main.hpp"
 
-Destructible::Destructibe(float maxHp, float defense, const char *corpseName) :
-	maxHp(maxHp),hp(maxhp),defense(defense),corpseName(corpseName) {
+Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
+	maxHp(maxHp),hp(maxHp),defense(defense),corpseName(corpseName) {
 }
 
 float Destructible::takeDamage(Actor *owner, float damage) {
@@ -38,7 +38,7 @@ void MonsterDestructible::die(Actor *owner) {
 
 
 PlayerDestructible::PlayerDestructible(float maxHp, float defense, const char *corpseName) :
-	Destruble(maxHp,defense,corpseName) {
+	Destructible(maxHp,defense,corpseName) {
 }
 
 void PlayerDestructible::die(Actor *owner) {

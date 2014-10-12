@@ -13,9 +13,10 @@ class PlayerAi : public Ai {
 
 class MonsterAi : public Ai {
 	public :
+		MonsterAi();
 		void update(Actor *owner);
 
 	protected :
-		bool moveOrAttack(Actor *owner, int targetx, int targety);
 		int moveCount;
+		void moveOrAttack(Actor *owner, int targetx, int targety);
 };
