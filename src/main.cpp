@@ -3,7 +3,7 @@
 #include "Map.hpp"
 #include "Engine.hpp"
 
-Engine engine;
+Engine engine(80,50);
 
 int main() {
 	while ( !TCODConsole::isWindowClosed() ){
