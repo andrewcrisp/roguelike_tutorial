@@ -22,8 +22,6 @@ void Gui::render() {
 	con->setDefaultBackground(TCODColor::black);
 	con->clear();
 	renderBar(1,1,BAR_WIDTH,"HP",engine.player->destructible->hp,engine.player->destructible->maxHp,TCODColor::lightRed,TCODColor::darkerRed);
-	renderMouseLook();
-	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT);
 	int y=1;
 	float colorCoef=0.4f;
 	for (Message **it=log.begin(); it != log.end(); it++){
@@ -35,7 +33,8 @@ void Gui::render() {
 			colorCoef+=0.3f;
 		}
 	}
-
+	renderMouseLook();
+	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT);
 }
 
 void Gui::renderBar(int x, int y, int width, const char *name, float value, float maxValue, const TCODColor &barColor, const TCODColor &backColor){
@@ -71,6 +70,7 @@ void Gui::renderMouseLook() {
 	con->setDefaultForeground(TCODColor::lightGrey);
 	con->print(1,0,buf);
 }
+
 void Gui::message(const TCODColor &col, const char *text, ...) {
 	va_list ap;
 	char buf[128];
@@ -95,12 +95,11 @@ void Gui::message(const TCODColor &col, const char *text, ...) {
 	} while ( lineEnd );
 }
 
-Gui::Message::Message(const char *text, const TCODColor &col) : col(col) {
-	this->text = new char[strlen(text)];
-	strcpy(this->text,text);
+Gui::Message::Message(const char *text, const TCODColor &col) : text(strdup(text)),col(col) {
+	
 }
 
 Gui::Message::~Message() {
-	delete [] text;
+	free(text);
 }
 
