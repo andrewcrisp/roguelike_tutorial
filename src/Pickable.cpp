@@ -1,3 +1,5 @@
+#include "main.hpp"
+
 bool Pickable::pick(Actor *owner, Actor *wearer) {
 	if (wearer->container && wearer->container->add(owner) ) {
 		engine.actors.remove(owner);
