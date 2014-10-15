@@ -1,5 +1,3 @@
-#include "main.hpp"
-
 class Pickable {
 	public :
 		bool pick(Actor *owner, Actor *wearer);

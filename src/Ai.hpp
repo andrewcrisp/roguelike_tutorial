@@ -10,7 +10,7 @@ class PlayerAi : public Ai {
 	protected :
 		bool moveOrAttack(Actor *owner, int targetx, int targety);
 		void handleActionKey(Actor *owner, int ascii);
-		Actor *choseFromInventory(actor *owner);
+		Actor *choseFromInventory(Actor *owner);
 };
 
 class MonsterAi : public Ai {
