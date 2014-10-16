@@ -10,9 +10,11 @@ public :
 	Ai *ai;
 	Pickable *pickable;
 	Container *container;
-
+	
 	Actor(int x, int y, int ch, const char *name, const TCODColor &col);
 	~Actor();
 	void update();
 	void render() const;
+	float getDistance(int cx, int cy) const;
+
 };

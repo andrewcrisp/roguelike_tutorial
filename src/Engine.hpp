@@ -22,9 +22,9 @@ class Engine {
 		void update();
 		void render();
 		void sendToBack(Actor *actor);
+		Actor *getClosestMonster(int x, int y, float range) const;
 	
 	private :
-//bool computeFov;
 };
 
 extern Engine engine;
