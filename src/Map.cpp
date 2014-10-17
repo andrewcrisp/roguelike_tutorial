@@ -181,6 +181,11 @@ void Map::addItem(int x, int y){
 		scrollOfFireball->blocks=false;
 		scrollOfFireball->pickable=new Fireball(3,12);
 		engine.actors.push(scrollOfFireball);
+	} else {
+		Actor *scrollOfConfusion=new Actor(x,y,'#',"scroll of confusion",TCODColor::lightYellow);
+		scrollOfConfusion->blocks=false;
+		scrollOfConfusion->pickable=new Confuser(10,8);
+		engine.actors.push(scrollOfConfusion);
 	}
 }
 

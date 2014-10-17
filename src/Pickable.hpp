@@ -2,6 +2,7 @@ class Pickable {
 	public :
 		bool pick(Actor *owner, Actor *wearer);
 		virtual bool use(Actor *owner, Actor *wearer);
+		void drop(Actor *owner, Actor *wearer);
 };
 
 class Healer : public Pickable {
@@ -25,3 +26,10 @@ class Fireball : public LightningBolt {
 		bool use(Actor *owner, Actor *wearer);
 };
 
+class Confuser : public Pickable {
+	public :
+		int nbTurns;
+		float range;
+		Confuser(int nbTurns, float range);
+		bool use(Actor *owner, Actor *wearer);
+};
