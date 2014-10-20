@@ -1,16 +1,8 @@
 #include "main.hpp"
 
-Engine::Engine(int screenWidth, int screenHeight) : gameStatus(STARTUP), fovRadius(10), screenWidth(screenWidth), screenHeight(screenHeight) {
+Engine::Engine(int screenWidth, int screenHeight) : gameStatus(STARTUP), player(NULL), map(NULL), fovRadius(10), screenWidth(screenWidth), screenHeight(screenHeight) {
 	TCODConsole::initRoot(80,50,"libtcod C++ tutorial",false);
-	player = new Actor(40,25,'@',"player",TCODColor::white);
-	player->destructible=new PlayerDestructible(30,2,"your cadaver");
-	player->attacker=new Attacker(5);
-	player->ai = new PlayerAi();
-	player->container = new Container(26);
-	actors.push(player);
-	map = new Map(80,43);
 	gui = new Gui();
-	gui->message(TCODColor::red, "Welcome stranger!\n Prepare to die, again.");
 
 }
 
@@ -18,6 +10,18 @@ Engine::~Engine() {
 	actors.clearAndDelete();
 	delete map;
 	delete gui;
+}
+
+void Engine::init() {
+	player = new Actor(40,25,'@',"player",TCODColor::white);
+	player->destructible = new PlayerDestructible(30,2,"your cadaver");
+	player->attacker = new Attacker(5);
+	player->ai = new PlayerAi();
+	player->container = new Container(26);
+	actors.push(player);
+	map = new Map(80,43);
+	map->init(true);
+	gui->message(TCODColor::red,"Welcome to the dungeon.");
 }
 
 void Engine::update() {
