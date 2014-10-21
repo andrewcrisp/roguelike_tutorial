@@ -15,12 +15,12 @@ public :
 	bool visitNode(TCODBsp *node, void *userData) {
 		if ( node->isLeaf() ) {
 			int x,y,w,h;
-			TCODRandom *rng=TCODRandom::getInstance();
-			w=rng->getInt(ROOM_MIN_SIZE, node->w-2);
-			h=rng->getInt(ROOM_MIN_SIZE, node->h-2);
-			x=rng->getInt(node->x+1, node->x+node->w-w-1);
-			y=rng->getInt(node->y+1, node->y+node->h-h-1);
-			map.createRoom(roomNum == 0, x, y, x+w-1, y+h-1);
+//			TCODRandom *rng=TCODRandom::getInstance();
+			w=map.rng->getInt(ROOM_MIN_SIZE, node->w-2);
+			h=map.rng->getInt(ROOM_MIN_SIZE, node->h-2);
+			x=map.rng->getInt(node->x+1, node->x+node->w-w-1);
+			y=map.rng->getInt(node->y+1, node->y+node->h-h-1);
+			map.createRoom(roomNum == 0, x, y, x+w-1, y+h-1, withActors);
 			if ( roomNum != 0 ){
 				map.dig(lastx,lasty,x+w/2,lasty);
 				map.dig(x+w/2,lasty,x+w/2,y+h/2);
@@ -34,12 +34,13 @@ public :
 };
 
 Map::Map(int width, int height) : width(width),height(height) {
-	tiles=new Tile[width*height];
-	map=new TCODMap(width,height);
-	TCODBsp bsp(0,0,width,height);
-	bsp.splitRecursive(NULL,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
-	BspListener listener(*this);
-	bsp.traverseInvertedLevelOrder(&listener,NULL);
+	seed=TCODRandom::getInstance()->getInit(0,0x7FFFFFFF);
+//	tiles=new Tile[width*height];
+//	map=new TCODMap(width,height);
+//	TCODBsp bsp(0,0,width,height);
+//	bsp.splitRecursive(NULL,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
+//	BspListener listener(*this);
+//	bsp.traverseInvertedLevelOrder(&listener,NULL);
 }
 
 Map::~Map() {
@@ -77,8 +78,11 @@ void Map::addMonster(int x, int y) {
 	}
 }
 
-void Map::createRoom(bool first, int x1, int y1, int x2, int y2){
+void Map::createRoom(bool first, int x1, int y1, int x2, int y2, bool withActors){
 	dig (x1,y1,x2,y2);
+	if (!withActors){
+		return;
+	}
 	if (first) {
 		engine.player->x=(x1+x2)/2;
 		engine.player->y=(y1+y2)/2;
@@ -127,6 +131,16 @@ void Map::dig(int x1, int y1, int x2, int y2){
 	}
 }
 
+void Map::init(bool withActors) {
+	rng = new TCODRandom(seed, TCOD_RNG_CMWC);
+
+	tiles=new Tile[width*height];
+	map=new TCODMap(width,height);
+	TCODBsp bsp(0,0,width,height);
+	bsp.splitRecursive(rng,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
+	BspListener listener(*this);
+	bsp.traverseInvertedLevelOrder(&listener,(void *)withActors);
+}
 bool Map::isExplored(int x, int y) const {
 	return tiles[x+y*width].explored;
 }
