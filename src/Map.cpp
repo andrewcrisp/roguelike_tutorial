@@ -159,6 +159,14 @@ bool Map::isWall(int x, int y) const {
 	return !map->isWalkable(x,y);
 }
 
+void Map::load(TCODZip &zip) {
+	seed=get.int();
+	init(false);
+	for (int i=0; i<width*height; i++) {
+		tiles[i].explored=zip.getInt();
+	}
+}
+
 void Map::render() const {
 	static const TCODColor darkWall(0,0,100);
 	static const TCODColor darkGround(50,50,150);
@@ -175,6 +183,13 @@ void Map::render() const {
 		}
 	}
 
+}
+
+void Map::save(TCODZip &zip) {
+	zip.putInt(seed);
+	for (int i=0; i<width*height; i++){
+		zip.putInt(tiles[i].explored);
+	}
 }
 
 void Map::addItem(int x, int y){

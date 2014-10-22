@@ -3,7 +3,7 @@ struct Tile {
 	Tile() : explored(false) {}
 };
 
-class Map {
+class Map : public Persistent {
 	public :
 		int width,height;
 
@@ -16,6 +16,9 @@ class Map {
 		void computeFov();
 		void render() const;
 		void init(bool withActors);
+		void load(TCODZip &zip);
+		void save(TCODZip &zip);
+
 	protected :
 		Tile *tiles;
 		TCODMap *map;
