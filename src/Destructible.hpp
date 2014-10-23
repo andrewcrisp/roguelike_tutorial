@@ -1,4 +1,4 @@
-class Destructible {
+class Destructible : public Persistent {
 	public :
 		float maxHp;
 		float hp;
@@ -10,6 +10,14 @@ class Destructible {
 		float takeDamage(Actor *owner, float damage);
 		float heal(float amount);
 		virtual void die(Actor *owner);
+		void load(TCODZip &zip);
+		void load(TCODZip &zip);
+		static Destructible *creat(TCODZip &zip);
+
+	protected :
+		enum DestructibleType {
+			MONSTER,PLAYER
+		};
 		
 };
 

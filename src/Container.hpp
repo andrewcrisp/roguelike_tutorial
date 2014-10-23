@@ -1,4 +1,4 @@
-class Container {
+class Container : public Persistent {
 	public :
 		int size;
 		TCODList<Actor *> inventory;
@@ -7,4 +7,6 @@ class Container {
 		~Container();
 		bool add(Actor *actor);
 		void remove(Actor *actor);
+		void load(TCODZip &zip);
+		void save(TCODZip &zip);
 };
