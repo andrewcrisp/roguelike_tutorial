@@ -14,6 +14,10 @@ Gui::Gui() {
 
 Gui::~Gui() {
 	delete con;
+	clear();
+}
+
+void Gui::clear() {
 	log.clearAndDelete();
 }
 
@@ -119,4 +123,20 @@ Gui::Message::Message(const char *text, const TCODColor &col) : text(strdup(text
 Gui::Message::~Message() {
 	free(text);
 }
+
+Menu::~Menu() {
+	clear();
+}
+
+void Menu::clear() {
+	items.clearAndDelete();
+}
+
+void Menu::addItem(MenuItemCode code, const char *label) {
+	MenuItem *item=new MenuItem();
+	item->code=code;
+	item->label=label;
+	items.push(item);
+}
+
 
