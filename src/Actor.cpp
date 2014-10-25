@@ -38,7 +38,7 @@ void Actor::load(TCODZip &zip) {
 	y=zip.getInt();
 	ch=zip.getInt();
 	col=zip.getColor();
-	name=srtdup(zip.getString());
+	name=strdup(zip.getString());
 	blocks=zip.getInt();
 	bool hasAttacker=zip.getInt();
 	bool hasDestructible=zip.getInt();

@@ -4,6 +4,25 @@
 
 static const int TRACKING_TURNS=3;
 
+void PlayerAi::load(TCODZip &zip) {
+}
+
+void PlayerAi::save(TCODZip &zip) {
+	zip.putInt(PLAYER);
+}
+
+Ai *Ai::create(TCODZip &zip) {
+	AiType type=(AiType)zip.getInt();
+	Ai *ai=NULL;
+	switch(type) {
+		case PLAYER : ai = new PlayerAi(); break;
+		case MONSTER : ai = new MonsterAi();break;
+		case CONFUSED_MONSTER : ai = new ConfusedMonsterAi(0,NULL); break;
+	}
+	ai->load(zip);
+	return ai;
+}
+
 void PlayerAi::update(Actor *owner) {
 	if ( owner->destructible && owner->destructible->isDead() ) {
 		return;
@@ -130,6 +149,15 @@ void PlayerAi::handleActionKey(Actor *owner, int ascii) {
 MonsterAi::MonsterAi() : moveCount(0) {
 }
 
+void MonsterAi::load(TCODZip &zip) {
+	moveCount=zip.getInt();
+}
+
+void MonsterAi::save(TCODZip &zip) {
+	zip.putInt(MONSTER);
+	zip.putInt(moveCount);
+}
+
 void MonsterAi::update(Actor *owner) {
 	if ( owner->destructible && owner->destructible->isDead() ) {
 		return;
@@ -167,6 +195,17 @@ void MonsterAi::moveOrAttack(Actor *owner, int targetx, int targety) {
 }
 
 ConfusedMonsterAi::ConfusedMonsterAi(int nbTurns, Ai *oldAi) : nbTurns(nbTurns),oldAi(oldAi) {
+}
+
+void ConfusedMonsterAi::load(TCODZip &zip) {
+	nbTurns=zip.getInt();
+	oldAi=Ai::create(zip);
+}
+
+void ConfusedMonsterAi::save(TCODZip &zip) {
+	zip.putInt(CONFUSED_MONSTER);
+	zip.putInt(nbTurns);
+	oldAi->save(zip);
 }
 
 void ConfusedMonsterAi::update(Actor *owner) {

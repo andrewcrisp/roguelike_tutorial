@@ -33,7 +33,7 @@ void Engine::load() {
 		actors.push(player);
 		int nbActors=zip.getInt();
 		while ( nbActors > 0 ) {
-			Actor *actor = new Actor(0,0,0,NULL,TCODColor:white);
+			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
 			actor->load(zip);
 			actors.push(actor);
 			nbActors--;

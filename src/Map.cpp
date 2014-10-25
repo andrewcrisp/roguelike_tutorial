@@ -16,6 +16,7 @@ public :
 		if ( node->isLeaf() ) {
 			int x,y,w,h;
 //			TCODRandom *rng=TCODRandom::getInstance();
+			bool withActors=(bool)userData;
 			w=map.rng->getInt(ROOM_MIN_SIZE, node->w-2);
 			h=map.rng->getInt(ROOM_MIN_SIZE, node->h-2);
 			x=map.rng->getInt(node->x+1, node->x+node->w-w-1);
@@ -34,7 +35,7 @@ public :
 };
 
 Map::Map(int width, int height) : width(width),height(height) {
-	seed=TCODRandom::getInstance()->getInit(0,0x7FFFFFFF);
+	seed=TCODRandom::getInstance()->getInt(0,0x7FFFFFFF);
 //	tiles=new Tile[width*height];
 //	map=new TCODMap(width,height);
 //	TCODBsp bsp(0,0,width,height);
@@ -160,7 +161,7 @@ bool Map::isWall(int x, int y) const {
 }
 
 void Map::load(TCODZip &zip) {
-	seed=get.int();
+	seed=zip.getInt();
 	init(false);
 	for (int i=0; i<width*height; i++) {
 		tiles[i].explored=zip.getInt();

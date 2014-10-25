@@ -1,5 +1,18 @@
 #include "main.hpp"
 
+Pickable *Pickable::create(TCODZip &zip) {
+	PickableType type=(PickableType)zip.getInt();
+	Pickable *pickable=NULL;
+	switch(type) {
+		case HEALER : pickable=new Healer(0); break;
+		case LIGHTNING_BOLT : pickable=new LightningBolt(0,0); break;
+		case CONFUSER : pickable=new Confuser(0,0); break;
+		case FIREBALL : pickable=new Fireball(0,0); break;
+	}
+	pickable->load(zip);
+	return pickable;
+}
+
 bool Pickable::pick(Actor *owner, Actor *wearer) {
 	if (wearer->container && wearer->container->add(owner) ) {
 		engine.actors.remove(owner);
@@ -30,6 +43,15 @@ void Pickable::drop(Actor *owner, Actor *wearer){
 Healer::Healer(float amount) : amount(amount) {
 }
 
+void Healer::load(TCODZip &zip) {
+	amount=zip.getFloat();
+}
+
+void Healer::save(TCODZip &zip) {
+	zip.putInt(HEALER);
+	zip.putFloat(amount);
+}
+
 bool Healer::use(Actor *owner, Actor *wearer) {
 	if ( wearer->destructible ) {
 		float amountHealed = wearer->destructible->heal(amount);
@@ -41,6 +63,17 @@ bool Healer::use(Actor *owner, Actor *wearer) {
 }
 
 LightningBolt::LightningBolt(float range, float damage) : range(range),damage(damage) {
+}
+
+void LightningBolt::load(TCODZip &zip) {
+	range=zip.getFloat();
+	damage=zip.getFloat();
+}
+
+void LightningBolt::save(TCODZip &zip){
+	zip.putInt(LIGHTNING_BOLT);
+	zip.putFloat(range);
+	zip.putFloat(damage);
 }
 
 bool LightningBolt::use(Actor *owner, Actor *wearer) {
@@ -58,6 +91,12 @@ bool LightningBolt::use(Actor *owner, Actor *wearer) {
 }
 
 Fireball::Fireball(float range, float damage) : LightningBolt(range,damage) {
+}
+
+void Fireball::save(TCODZip &zip) {
+	zip.putInt(FIREBALL);
+	zip.putFloat(range);
+	zip.putFloat(damage);
 }
 
 bool Fireball::use(Actor *owner, Actor *wearer) {
@@ -79,6 +118,17 @@ bool Fireball::use(Actor *owner, Actor *wearer) {
 }
 
 Confuser::Confuser(int nbTurns, float range) : nbTurns(nbTurns), range(range) {
+}
+
+void Confuser::load(TCODZip &zip) {
+	nbTurns=zip.getInt();
+	range=zip.getFloat();
+}
+
+void Confuser::save(TCODZip &zip) {
+	zip.putInt(CONFUSER);
+	zip.putInt(nbTurns);
+	zip.putFloat(range);
 }
 
 bool Confuser::use(Actor *owner, Actor *wearer) {
