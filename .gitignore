@@ -7,6 +7,9 @@
 # Executables
 *.out
 
+# Save files
+*.sav
+
 # vim entries
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
