@@ -21,8 +21,21 @@ void Engine::save(){
 }
 
 void Engine::load() {
+	engine.gui->menu.clear();
+	engine.gui->menu.addItem(Menu::NEW_GAME,"New game");
 	if ( TCODSystem::fileExists("game.sav")) {
+		engine.gui->menu.addItem(Menu::CONTINUE,"Continue");
+	}
+	engine.gui->menu.addItem(Menu::EXIT,"Exit");
+	Menu::MenuItemCode menuItem=engine.gui->menu.pick();
+	if ( menuItem == Menu::EXIT || menuItem == Menu::NONE ) {
+		exit(0);
+	} else if ( menuItem == Menu::NEW_GAME ) {
+		engine.term();
+		engine.init();
+	} else {
 		TCODZip zip;
+		engine.term();
 		zip.loadFromFile("game.sav");
 		int width = zip.getInt();
 		int height = zip.getInt();
@@ -39,7 +52,27 @@ void Engine::load() {
 			nbActors--;
 		}
 		gui->load(zip);
-	} else {
-		engine.init();
+		gameStatus=STARTUP;
 	}
+//	if ( TCODSystem::fileExists("game.sav")) {
+//		TCODZip zip;
+//		zip.loadFromFile("game.sav");
+//		int width = zip.getInt();
+//		int height = zip.getInt();
+//		map = new Map(width,height);
+//		map->load(zip);
+//		player = new Actor(0,0,0,NULL,TCODColor::white);
+//		player->load(zip);
+//		actors.push(player);
+//		int nbActors=zip.getInt();
+//		while ( nbActors > 0 ) {
+//			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
+//			actor->load(zip);
+//			actors.push(actor);
+//			nbActors--;
+//		}
+//		gui->load(zip);
+//	} else {
+//		engine.init();
+//	}
 }
