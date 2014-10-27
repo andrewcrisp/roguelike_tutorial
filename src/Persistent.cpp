@@ -9,9 +9,10 @@ void Engine::save(){
 		zip.putInt(map->height);
 		map->save(zip);
 		player->save(zip);
-		zip.putInt(actors.size()-1);
+		stairs->save(zip);
+		zip.putInt(actors.size()-2);
 		for (Actor **it=actors.begin(); it!=actors.end(); it++) {
-			if ( *it!=player ) {
+			if ( *it!=player && *it!=stairs ) {
 				(*it)->save(zip);
 			}
 		}
@@ -43,6 +44,9 @@ void Engine::load() {
 		map->load(zip);
 		player = new Actor(0,0,0,NULL,TCODColor::white);
 		player->load(zip);
+		stairs = new Actor(0,0,0,NULL,TCODColor::white);
+		stairs->load(zip);
+		actors.push(stairs);
 		actors.push(player);
 		int nbActors=zip.getInt();
 		while ( nbActors > 0 ) {
@@ -54,25 +58,4 @@ void Engine::load() {
 		gui->load(zip);
 		gameStatus=STARTUP;
 	}
-//	if ( TCODSystem::fileExists("game.sav")) {
-//		TCODZip zip;
-//		zip.loadFromFile("game.sav");
-//		int width = zip.getInt();
-//		int height = zip.getInt();
-//		map = new Map(width,height);
-//		map->load(zip);
-//		player = new Actor(0,0,0,NULL,TCODColor::white);
-//		player->load(zip);
-//		actors.push(player);
-//		int nbActors=zip.getInt();
-//		while ( nbActors > 0 ) {
-//			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
-//			actor->load(zip);
-//			actors.push(actor);
-//			nbActors--;
-//		}
-//		gui->load(zip);
-//	} else {
-//		engine.init();
-//	}
 }

@@ -8,6 +8,7 @@ Actor::Actor(int x, int y, int ch, const char *name, const TCODColor &col) :
 	col(col),
 	name(name),
 	blocks(true),
+	fovOnly(true),
 	attacker(NULL),
 	destructible(NULL),
 	ai(NULL),

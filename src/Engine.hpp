@@ -10,6 +10,7 @@ class Engine {
 		TCODList<Actor *> actors;
 		int fovRadius;
 		Actor *player;
+		Actor *stairs;
 		Map *map;
 		int screenWidth;
 		int screenHeight;

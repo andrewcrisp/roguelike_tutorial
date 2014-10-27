@@ -18,6 +18,10 @@ void Engine::init() {
 	player->ai = new PlayerAi();
 	player->container = new Container(26);
 	actors.push(player);
+	stairs = new Actor(0,0,'>',"stairs",TCODColor::white);
+	stairs->blocks=false;
+	stairs->fovOnly=false;
+	actors.push(stairs);
 	map = new Map(80,43);
 	map->init(true);
 	gui->message(TCODColor::red,"Welcome to the dungeon.");
@@ -57,7 +61,9 @@ void Engine::render() {
 	TCODConsole::root->print(1,screenHeight-2, "HP : %d/%d",(int)player->destructible->hp,(int)player->destructible->maxHp);
 	for (Actor **iterator=actors.begin();iterator!= actors.end(); iterator++) {
 		Actor *actor=*iterator;
-		if ( map->isInFov(actor->x,actor->y) ) {
+		if ( actor != player
+				&& ((!actor->fovOnly && map->isExplored(actor->x,actor->y))
+					|| map->isInFov(actor->x,actor->y)) ) {
 			actor->render();
 		}
 	}

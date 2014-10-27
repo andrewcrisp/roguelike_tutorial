@@ -36,12 +36,6 @@ public :
 
 Map::Map(int width, int height) : width(width),height(height) {
 	seed=TCODRandom::getInstance()->getInt(0,0x7FFFFFFF);
-//	tiles=new Tile[width*height];
-//	map=new TCODMap(width,height);
-//	TCODBsp bsp(0,0,width,height);
-//	bsp.splitRecursive(NULL,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
-//	BspListener listener(*this);
-//	bsp.traverseInvertedLevelOrder(&listener,NULL);
 }
 
 Map::~Map() {
@@ -108,6 +102,8 @@ void Map::createRoom(bool first, int x1, int y1, int x2, int y2, bool withActors
 			nbItems--;
 		}
 	}
+	engine.stairs->x=(x1+x2)/2;
+	engine.stairs->y=(y1+y2)/2;
 }
 
 void Map::computeFov() {
