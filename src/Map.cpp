@@ -60,13 +60,13 @@ void Map::addMonster(int x, int y) {
 	TCODRandom *rng=TCODRandom::getInstance();
 	if ( rng->getInt(0,100) < 80 ){
 		Actor *orc = new Actor(x,y,'o',"orc",TCODColor::desaturatedGreen);
-		orc->destructible = new MonsterDestructible(10,0,"dead orc");
+		orc->destructible = new MonsterDestructible(10,0,"dead orc",10);
 		orc->attacker = new Attacker(3);
 		orc->ai = new MonsterAi();
 		engine.actors.push(orc);	
 	} else {
 		Actor *troll = new Actor(x,y,'T',"troll",TCODColor::darkerGreen);
-		troll->destructible = new MonsterDestructible(16,1,"troll carcass");
+		troll->destructible = new MonsterDestructible(16,1,"troll carcass",10);
 		troll->attacker = new Attacker(4);
 		troll->ai = new MonsterAi();
 		engine.actors.push(troll);

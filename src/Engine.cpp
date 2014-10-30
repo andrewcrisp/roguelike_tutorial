@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-Engine::Engine(int screenWidth, int screenHeight) : gameStatus(STARTUP), player(NULL), map(NULL), fovRadius(10), screenWidth(screenWidth), screenHeight(screenHeight) {
+Engine::Engine(int screenWidth, int screenHeight) : gameStatus(STARTUP), player(NULL), map(NULL), fovRadius(10), screenWidth(screenWidth), screenHeight(screenHeight),level(1) {
 	TCODConsole::initRoot(80,50,"libtcod C++ tutorial",false);
 	gui = new Gui();
 
@@ -13,7 +13,7 @@ Engine::~Engine() {
 
 void Engine::init() {
 	player = new Actor(40,25,'@',"player",TCODColor::white);
-	player->destructible = new PlayerDestructible(30,2,"your cadaver");
+	player->destructible = new PlayerDestructible(30,2,"your cadaver",0);
 	player->attacker = new Attacker(5);
 	player->ai = new PlayerAi();
 	player->container = new Container(26);
@@ -25,6 +25,23 @@ void Engine::init() {
 	map = new Map(80,43);
 	map->init(true);
 	gui->message(TCODColor::red,"Welcome to the dungeon.");
+	gameStatus=STARTUP;
+}
+
+void Engine::nextLevel() {
+	level++;
+	gui->message(TCODColor::lightViolet,"You find the time to rest and recover.");
+	player->destructible->heal(player->destructible->maxHp/2);
+	gui->message(TCODColor::red,"You descend further into the dungeon.");
+	delete map;
+	for (Actor **it=actors.begin(); it!=actors.end(); it++) {
+		if ( *it != player && *it != stairs ) {
+			delete *it;
+			it = actors.remove(it);
+		}
+	}
+	map = new Map(80,43);
+	map->init(true);
 	gameStatus=STARTUP;
 }
 

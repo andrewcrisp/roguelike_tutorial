@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include "main.hpp"
 
-Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
-	maxHp(maxHp),hp(maxHp),defense(defense),corpseName(corpseName) {
+Destructible::Destructible(float maxHp, float defense, const char *corpseName, int xp) :
+	maxHp(maxHp),hp(maxHp),defense(defense),corpseName(corpseName),xp(xp) {
 }
 
 Destructible *Destructible::create(TCODZip &zip) {
 	DestructibleType type=(DestructibleType)zip.getInt();
 	Destructible *destructible=NULL;
 	switch(type) {
-		case MONSTER : destructible=new MonsterDestructible(0,0,NULL); break;
-		case PLAYER : destructible=new PlayerDestructible(0,0,NULL); break;
+		case MONSTER : destructible=new MonsterDestructible(0,0,NULL,0); break;
+		case PLAYER : destructible=new PlayerDestructible(0,0,NULL,0); break;
 	}
 	destructible->load(zip);
 	return destructible;
@@ -61,12 +61,13 @@ float Destructible::takeDamage(Actor *owner, float damage) {
 	return damage;
 }
 
-MonsterDestructible::MonsterDestructible(float maxHp, float defense, const char *corpseName) : 
-	Destructible(maxHp,defense,corpseName) {
+MonsterDestructible::MonsterDestructible(float maxHp, float defense, const char *corpseName, int xp) : 
+	Destructible(maxHp,defense,corpseName,xp) {
 }
 
 void MonsterDestructible::die(Actor *owner) {
-	engine.gui->message(TCODColor::lightGrey,"%s is dead.\n",owner->name);
+	engine.gui->message(TCODColor::lightGrey,"%s is dead. You gain %d xp.\n",owner->name, xp);
+	engine.player->destructible->xp += xp;
 	Destructible::die(owner);
 }
 
@@ -75,8 +76,8 @@ void MonsterDestructible::save(TCODZip &zip) {
 	Destructible::save(zip);
 }
 
-PlayerDestructible::PlayerDestructible(float maxHp, float defense, const char *corpseName) :
-	Destructible(maxHp,defense,corpseName) {
+PlayerDestructible::PlayerDestructible(float maxHp, float defense, const char *corpseName, int xp) :
+	Destructible(maxHp,defense,corpseName,xp) {
 }
 
 void PlayerDestructible::die(Actor *owner) {
